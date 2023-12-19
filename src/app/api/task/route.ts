@@ -1,8 +1,12 @@
+import { PrismaClient } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server"
+
+const prisma = new PrismaClient();
 
 export const GET = async () => {
   try {
-    return NextResponse.json({ message: "GET All" })
+    const tasks = await prisma.task.findMany();
+    return NextResponse.json(tasks);
   } catch (error) {
     return NextResponse.json({ message: "Something went wrong" }, { status: 500, statusText: "Internal Server Error" });
   }
@@ -10,7 +14,20 @@ export const GET = async () => {
 
 export const POST = async (request: NextRequest) => {
   try {
-    return NextResponse.json({ message: "Create" })
+    const {
+      Title,
+      Description,
+      Status,
+    } = await request.json();
+
+    await prisma.task.create({
+      data: {
+        Title,
+        Description,
+        Status,
+      }
+    });
+    return NextResponse.json({ message: "Task created" });
   } catch (error) {
     return NextResponse.json({ message: "Something went wrong" }, { status: 500, statusText: "Internal Server Error" });
   }
