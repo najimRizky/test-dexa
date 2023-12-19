@@ -55,52 +55,54 @@ const Task = () => {
         </Link>
 
       </div>
-      <table className="table-auto w-full mt-4">
-        <thead>
-          <tr>
-            <th className="pl-2 pr-4 text-left py-2">Title</th>
-            <th className="pl-2 pr-4 text-left py-2">Description</th>
-            <th className="pl-2 pr-4 text-left py-2 min-w-[8rem]">Status</th>
-            <th className="pl-2 pr-4 text-left py-2">Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          {loading ? (
+      <div className="overflow-x-auto">
+        <table className="table-auto w-full mt-4">
+          <thead>
             <tr>
-              <td colSpan={4}>Loading...</td>
+              <th className="pl-2 pr-4 text-left py-2 min-w-[8rem]">Title</th>
+              <th className="pl-2 pr-4 text-left py-2">Description</th>
+              <th className="pl-2 pr-4 text-left py-2 min-w-[8rem]">Status</th>
+              <th className="pl-2 pr-4 text-left py-2 w-[6rem]">Action</th>
             </tr>
-          ) : (
-            tasks.length > 0 ? (
-              tasks.map((task: Task, index) => (
-                <tr key={index}>
-                  <td className="border px-4 py-2">{task.Title}</td>
-                  <td className="border px-4 py-2">{task.Description}</td>
-                  <td className="border px-4 py-2">{task.Status}</td>
-                  <td className="border px-4 py-2">
-                    <Link href={`/form?id=${task.Id}`}>
-                      <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                        Edit
-                      </button>
-                    </Link>
-                    <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded my-2" onClick={() => handleDelete(task.Id)}>
-                      Delete
-                    </button>
-                    <Link href={`/${task.Id}`}>
-                      <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
-                        View
-                      </button>
-                    </Link>
-                  </td>
-                </tr>
-              ))
-            ) : (
+          </thead>
+          <tbody>
+            {loading ? (
               <tr>
-                <td colSpan={4}>No data</td>
+                <td colSpan={4}>Loading...</td>
               </tr>
-            )
-          )}
-        </tbody>
-      </table>
+            ) : (
+              tasks.length > 0 ? (
+                tasks.map((task: Task, index) => (
+                  <tr key={index}>
+                    <td className="border px-4 py-2">{task.Title}</td>
+                    <td className="border px-4 py-2">{task.Description}</td>
+                    <td className="border px-4 py-2">{task.Status}</td>
+                    <td className="border px-4 py-2">
+                      <Link href={`/form?id=${task.Id}`}>
+                        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                          Edit
+                        </button>
+                      </Link>
+                      <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded my-2" onClick={() => handleDelete(task.Id)}>
+                        Delete
+                      </button>
+                      <Link href={`/${task.Id}`}>
+                        <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+                          View
+                        </button>
+                      </Link>
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan={4}>No data</td>
+                </tr>
+              )
+            )}
+          </tbody>
+        </table>
+      </div>
     </div>
   )
 }
