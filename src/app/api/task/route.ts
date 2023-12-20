@@ -5,7 +5,7 @@ const prisma = new PrismaClient();
 
 export const GET = async () => {
   try {
-    const tasks = await prisma.task.findMany();
+    const tasks = await prisma.task.findMany({ orderBy: [{ updatedAt: 'desc' }, { Title: 'asc' }] })
     return NextResponse.json(tasks);
   } catch (error) {
     return NextResponse.json({ message: "Something went wrong" }, { status: 500, statusText: "Internal Server Error" });
