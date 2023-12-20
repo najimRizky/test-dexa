@@ -15,13 +15,11 @@ const Task = () => {
   const [loading, setLoading] = useState(true)
 
   const getTasks = async () => {
-    console.log("getTasks")
     setLoading(true)
     const res = await fetch("/api/task")
 
     if (res.ok) {
       const data = await res.json()
-      console.log("getTasks", data)
       setTasks(data)
     }
 
@@ -44,16 +42,32 @@ const Task = () => {
     }
   }
 
+  const handleGenerate = async () => {
+    const res = await fetch(`/api/task/seed`)
+
+    if (res.ok) {
+      getTasks()
+    } else {
+      alert("Something went wrong. Please try again later.")
+    }
+  }
+
   return (
     <div>
       <div className="flex justify-between items-center">
         <h1 className="text-xl font-bold">All Task</h1>
-        <Link href="/form">
-          <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-            Add Task
-          </button>
-        </Link>
-
+        <div className="flex gap-2">
+          {(!loading && tasks.length === 0) && (
+            <button className="bg-blue-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded" onClick={handleGenerate}>
+              Generate Tasks
+            </button>
+          )}
+          <Link href="/form">
+            <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+              Add Task
+            </button>
+          </Link>
+        </div>
       </div>
       <div className="overflow-x-auto">
         <table className="table-auto w-full mt-4">
